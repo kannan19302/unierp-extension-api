@@ -1,10 +1,10 @@
 {
   "name": "@unerp/extension-api",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "zod": "^3.24.0"
+    "zod": "^3.22.4"
   },
   "scripts": {
     "build": "tsc"
@@ -13,8 +13,5 @@
     "dist",
     "src",
     "README.md"
-  ],
-  "devDependencies": {
-    "typescript": "^5.7.0"
-  }
+  ]
 }

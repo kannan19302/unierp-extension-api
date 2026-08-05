@@ -1,25 +1,27 @@
 # unierp-extension-api
 
-**Layer L2** of the UniERP layered repository architecture
-(`PLATFORM_ARCHITECTURE.md` § 4.2). Publishes @unerp/extension-api.
+**Layer L2 — Runtime** of the [UniERP](../unierp-platform) platform.
+Depends on: L0, L1.
 
-## Why it is its own repository
+## What this is
 
-The public contract customer code compiles against, plus the sandbox host interface. **3-year support, 12-month deprecation.** Its own repository because its promise outlives any platform release (§ 4.2).
+The public contract customer code compiles against: manifest schema, extension points, capability scopes, resource budgets, signed-bundle format.
 
-## The invariant
+## The invariant this repository owns
 
-**A repository may depend only on published artifacts of a strictly lower
-layer. Never sideways within a layer. Never upward.** A cycle is not
-discouraged — it is unrepresentable, because the lower layer's package cannot
+**3 years' support, 12 months' deprecation notice.** Its own repository because that promise outlives any platform release. Scopes are the intersection of what the manifest requests and what the installing admin actually holds — an extension can never exceed its installer.
+
+## The rule that applies everywhere
+
+A repository may depend only on published artifacts of a **strictly lower
+layer** — never sideways within a layer, never upward. A cycle is not
+discouraged; it is unrepresentable, because the lower layer's package cannot
 name the higher one.
 
-## Extraction status
+See the [platform overview](../unierp-platform/README.md) for the full map, and
+[`PLATFORM_ARCHITECTURE.md`](../ERPSys/docs/PLATFORM_ARCHITECTURE.md) § 4.2 for
+the reasoning.
 
-Extracted from the `ERPSys` monorepo as § 14 Phase 3, with history preserved
-via `git-filter-repo`.
+## Licence
 
-**The monorepo copy remains authoritative.** Consumers switch to published
-packages only once those packages are publishable; the monorepo stays buildable
-at each extraction tag until they do. Rollback is a one-line `pnpm` override
-pointing consumers back at the workspace path.
+AGPL-3.0.
