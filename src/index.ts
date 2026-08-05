@@ -56,3 +56,7 @@ export interface Extension {
 }
 
 export type ExtensionFactory = (context: ExtensionContext) => Extension;
+
+export * from "./capabilities";
+export * from "./schema";
+export * from "./bundle";
