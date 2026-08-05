@@ -8,5 +8,10 @@
   },
   "scripts": {
     "build": "tsc"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ]
 }
