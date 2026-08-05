@@ -47,7 +47,27 @@ export const ResourceBudgetSchema = z.object({
   httpCallsPerInvocation: z.number().int().min(0).max(100).default(10),
 });
 
-export type ResourceBudget = z.infer<typeof ResourceBudgetSchema>;
+/**
+ * Declared explicitly rather than as `z.infer<typeof ResourceBudgetSchema>`.
+ *
+ * An inferred type crossing a published package boundary is resolved against
+ * the CONSUMER's copy of zod, not the one this package was built with. With two
+ * zod instances in a tree, `.default()` optionality resolves differently on each
+ * side, and every field with a default arrives as `T | undefined` — which
+ * produced 31 "possibly undefined" errors in the API the moment it consumed this
+ * package from the registry instead of from source.
+ *
+ * A package promising 3 years of support cannot have its types depend on which
+ * zod the caller happens to install. The schema stays the single source of
+ * runtime validation; the type is stated once, here.
+ */
+export interface ResourceBudget {
+  memoryMb: number;
+  timeoutMs: number;
+  cpuMsPerMinute: number;
+  queriesPerInvocation: number;
+  httpCallsPerInvocation: number;
+}
 
 /**
  * Hosts this extension may reach over HTTP. § 8.3: "outbound HTTP only to
@@ -60,7 +80,11 @@ export const EgressRuleSchema = z.object({
   approved: z.boolean().default(false),
 });
 
-export type EgressRule = z.infer<typeof EgressRuleSchema>;
+export interface EgressRule {
+  host: string;
+  /** Approved by the installing tenant admin. Declared-but-unapproved is denied. */
+  approved: boolean;
+}
 
 export const ExtensionManifestV1Schema = z.object({
   id: z.string().regex(/^[a-z0-9][a-z0-9-]{2,63}$/, "id must be kebab-case"),
@@ -77,7 +101,20 @@ export const ExtensionManifestV1Schema = z.object({
   schema: z.unknown().optional(),
 });
 
-export type ExtensionManifestV1 = z.infer<typeof ExtensionManifestV1Schema>;
+export interface ExtensionManifestV1 {
+  id: string;
+  name: string;
+  version: string;
+  description?: string;
+  publisher: string;
+  /** Requested scopes. The effective grant is the intersection with the installer's own. */
+  scopes: Scope[];
+  entryPoint: string;
+  budget: ResourceBudget;
+  egress: EgressRule[];
+  /** Declarative model extensions — generated into the extension namespace (§ 8.2). */
+  schema?: unknown;
+}
 
 /**
  * The effective grant for one installation.
