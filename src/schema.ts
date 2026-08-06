@@ -59,31 +59,20 @@ export const ExtensionFieldSchema = z.object({
   indexed: z.boolean().default(false),
 });
 
-/** Explicit for the same reason as ResourceBudget — see capabilities.ts. */
-export interface ExtensionField {
-  name: string;
-  type: FieldType;
-  required: boolean;
-  indexed: boolean;
-}
+export type ExtensionField = z.infer<typeof ExtensionFieldSchema>;
 
 export const ExtensionEntitySchema = z.object({
   name: z.string().regex(IDENTIFIER, "entity name must be lower_snake_case"),
   fields: z.array(ExtensionFieldSchema).min(1).max(64),
 });
 
-export interface ExtensionEntity {
-  name: string;
-  fields: ExtensionField[];
-}
+export type ExtensionEntity = z.infer<typeof ExtensionEntitySchema>;
 
 export const ExtensionSchemaSchema = z.object({
   entities: z.array(ExtensionEntitySchema).max(32).default([]),
 });
 
-export interface ExtensionSchema {
-  entities: ExtensionEntity[];
-}
+export type ExtensionSchema = z.infer<typeof ExtensionSchemaSchema>;
 
 /** Reserved names an extension entity may never take. */
 const RESERVED = new Set(["id", "tenant_id", "created_at", "updated_at"]);

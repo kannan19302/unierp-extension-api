@@ -34,13 +34,7 @@ export const BundleFileSchema = z.object({
   bytes: z.number().int().nonnegative(),
 });
 
-/** Explicit for the same reason as ResourceBudget — see capabilities.ts. */
-export interface BundleFile {
-  path: string;
-  /** SHA-256 of the file's bytes, lowercase hex. */
-  sha256: string;
-  bytes: number;
-}
+export type BundleFile = z.infer<typeof BundleFileSchema>;
 
 export const BundleSignatureSchema = z.object({
   algorithm: z.literal(BUNDLE_SIGNATURE_ALGORITHM),
@@ -51,12 +45,7 @@ export const BundleSignatureSchema = z.object({
   signedAt: z.string().datetime(),
 });
 
-export interface BundleSignature {
-  algorithm: typeof BUNDLE_SIGNATURE_ALGORITHM;
-  keyId: string;
-  signature: string;
-  signedAt: string;
-}
+export type BundleSignature = z.infer<typeof BundleSignatureSchema>;
 
 export const SignedBundleSchema = z.object({
   manifest: z.record(z.unknown()),
@@ -64,11 +53,7 @@ export const SignedBundleSchema = z.object({
   signature: BundleSignatureSchema,
 });
 
-export interface SignedBundle {
-  manifest: Record<string, unknown>;
-  files: BundleFile[];
-  signature: BundleSignature;
-}
+export type SignedBundle = z.infer<typeof SignedBundleSchema>;
 
 /**
  * Deterministic JSON encoding: object keys sorted at every depth, no
@@ -114,10 +99,4 @@ export const PublisherKeySchema = z.object({
   revoked: z.boolean().default(false),
 });
 
-export interface PublisherKey {
-  keyId: string;
-  publisher: string;
-  /** SPKI DER public key, base64. */
-  publicKey: string;
-  revoked: boolean;
-}
+export type PublisherKey = z.infer<typeof PublisherKeySchema>;
