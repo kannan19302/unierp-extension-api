@@ -1,5 +1,5 @@
 {
-  "name": "@unerp/extension-api",
+  "name": "@kannan19302/extension-api",
   "version": "1.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
