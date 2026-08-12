@@ -1,6 +1,6 @@
 {
   "name": "@kannan19302/extension-api",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {

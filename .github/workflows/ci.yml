@@ -9,3 +9,14 @@ on:
 jobs:
   ci:
     uses: kannan19302/unierp-workspace/.github/workflows/reusable-ci.yml@main
+
+  # G01: "A capability cannot be added without a version bump." A committed
+  # baseline (capability-manifest.json) already reflects the current,
+  # correct surface, so this gate is safe to run on every push/PR from now on.
+  capability-version-bump:
+    name: Capability version-bump gate (G01)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Capability version-bump gate
+        run: node scripts/check-capability-version-bump.mjs

@@ -1,0 +1,15 @@
+{
+  "version": "1.1.0",
+  "scopes": [
+    "data:read",
+    "data:write",
+    "events:subscribe",
+    "http:fetch",
+    "jobs:schedule",
+    "log:write"
+  ],
+  "apiMembers": [
+    "log"
+  ],
+  "hasOpenIndexSignature": false
+}
