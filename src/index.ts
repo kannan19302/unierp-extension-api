@@ -77,3 +77,4 @@ export type ExtensionFactory = (context: ExtensionContext) => Extension;
 export * from "./capabilities.js";
 export * from "./schema.js";
 export * from "./bundle.js";
+export * from "./versioning.js";
